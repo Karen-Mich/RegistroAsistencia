@@ -1,0 +1,23 @@
+nmtui
+Edit Connection
+Addresses 192.168.100.165
+Gateway 192.168.100.1
+8.8.8.8
+8.8.4.4
+systemctl restart Network
+yum install nginx -y
+install keepalived -y
+sestatus
+service nginx start
+systemctl enable nginx
+service nginx status
+firewall-cmd --add-service=http --zone=public --permanent
+firewall-cmd --reload
+yum install nano -y
+service keepalived start
+service keepalived status
+nano /etc/keepalived/keepalive.conf
+//pegar plat
+chmod 755 /bin/check_nginx.sh
+//ingresar a keepalived.conf
+systemctl enable keepalived
