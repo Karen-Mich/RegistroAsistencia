@@ -1,0 +1,121 @@
+python -m venv venv    
+venv\Scripts\activate
+pip install selenium
+pip install msedge-selenium-tools
+
+
+
+-----------------------------
+import time
+import os
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.alert import Alert
+from selenium.webdriver.support.ui import Select
+
+# Configuración inicial del driver
+options = webdriver.EdgeOptions()
+driver = webdriver.Edge(options=options)
+
+# Ruta al archivo de imagen
+current_dir = os.path.dirname(os.path.abspath(__file__))
+image_path = os.path.join(current_dir, "C:\Users\hamil\OneDrive\Escritorio\SITIOFICTICIO\3.png")
+
+# Abrir la página web
+driver.get("http://127.0.0.1:5500/#")
+
+# Agregar primer producto
+btnAddProduct = driver.find_element(By.LINK_TEXT, "Add Product")
+btnAddProduct.click()
+
+driver.find_element(By.ID, "product-code").send_keys("P1")
+driver.find_element(By.ID, "product-name").send_keys("Producto 1")
+driver.find_element(By.ID, "product-price").send_keys("100")
+driver.find_element(By.ID, "product-cost").send_keys("50")
+driver.find_element(By.ID, "product-stock").send_keys("10")
+
+tipo = Select(driver.find_element(By.ID, "product-type"))
+tipo.select_by_visible_text("Electronics")
+
+# Fecha
+fecha = driver.find_element(By.ID, "product-date")
+fecha.send_keys("01-11-2023")
+
+# Imagen
+imagen = driver.find_element(By.ID, "product-image")
+imagen.send_keys(image_path)
+
+driver.find_element(By.CLASS_NAME, "btn-primary").click()
+
+time.sleep(2)
+
+# Agregar segundo producto
+btnAddProduct = driver.find_element(By.LINK_TEXT, "Add Product")
+btnAddProduct.click()
+
+driver.find_element(By.ID, "product-code").send_keys("P2")
+driver.find_element(By.ID, "product-name").send_keys("Producto 2")
+driver.find_element(By.ID, "product-price").send_keys("200")
+driver.find_element(By.ID, "product-cost").send_keys("100")
+driver.find_element(By.ID, "product-stock").send_keys("5")
+
+tipo = Select(driver.find_element(By.ID, "product-type"))
+tipo.select_by_visible_text("Clothing")
+
+# Fecha
+fecha = driver.find_element(By.ID, "product-date")
+fecha.send_keys("15-11-2023")
+
+# Imagen
+imagen = driver.find_element(By.ID, "product-image")
+imagen.send_keys(image_path)
+
+driver.find_element(By.CLASS_NAME, "btn-primary").click()
+
+time.sleep(2)
+
+# Editar el segundo producto
+edit_buttons = driver.find_elements(By.CLASS_NAME, "edit-btn")
+edit_buttons[1].click()
+
+alert = Alert(driver)
+alert.send_keys("P2-Editado")
+alert.accept()
+time.sleep(1)
+
+alert.send_keys("Producto 2 Editado")
+alert.accept()
+time.sleep(1)
+
+alert.send_keys("150")
+alert.accept()
+time.sleep(1)
+
+alert.send_keys("80")
+alert.accept()
+time.sleep(1)
+
+alert.send_keys("20")
+alert.accept()
+time.sleep(1)
+
+alert.send_keys("Food")
+alert.accept()
+time.sleep(1)
+
+alert.send_keys("01-12-2023")
+alert.accept()
+
+alert.send_keys("")
+alert.accept()
+
+# Eliminar el primer producto
+delete_buttons = driver.find_elements(By.CLASS_NAME, "delete-btn")
+delete_buttons[0].click()
+time.sleep(1)
+alert.accept()
+
+time.sleep(2)
+
+# Finalizar la prueba
+driver.quit()
